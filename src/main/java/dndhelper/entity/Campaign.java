@@ -36,7 +36,7 @@ public class Campaign {
     private List<Note> notes;
     
     @ManyToOne(cascade= {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH,CascadeType.MERGE,})
-    @JoinColumn(name="dungeon_master_nick")
+    @JoinColumn(name="nick_dungeon_master")
     private DungeonMaster dungeonMaster;
 
     @ManyToMany(fetch=FetchType.LAZY,

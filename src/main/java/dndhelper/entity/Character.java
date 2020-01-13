@@ -28,7 +28,7 @@ public class Character {
     @Column(name = "exp") private int exp;
     
     @Column(name = "armor_class") private int armorClass;
-    @Column(name = "hitpoints") private int hitPoints;
+    @Column(name = "hit_points") private int hitPoints;
     @Column(name = "speed") private int speed;
     
     @Column(name = "name") private String name;

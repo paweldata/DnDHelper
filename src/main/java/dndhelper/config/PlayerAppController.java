@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import dndhelper.entity.DungeonMaster;
 import dndhelper.entity.Player;
 import dndhelper.service.interfaces.PlayerService;
 
@@ -28,13 +29,20 @@ public class PlayerAppController {
   @PostMapping("/login_validate")
   public String loginValidate(@ModelAttribute("player") Player player) {
     if(playerService.loginValidate(player))
-      return "player/player-main"; // TODO otwórz menu dla gracza zalogowanego
+      return "player/player-main"; // TODO otwï¿½rz menu dla gracza zalogowanego
     return "redirect:/player/login";
   }
   
   @RequestMapping("/create")
-  public String showPlayerCreatePage() {
-    return "player/player-create";
+  public String showPlayerCreatePage(Model theModel) {
+	  Player player = new Player();
+	  theModel.addAttribute("player", player);
+	  return "player/player-create";
   }
-
+  
+  @PostMapping("/create_account")
+  public String createAccount(@ModelAttribute("player") Player player) {
+    this.playerService.savePlayer(player);
+    return "player/player-login";
+  }
 }

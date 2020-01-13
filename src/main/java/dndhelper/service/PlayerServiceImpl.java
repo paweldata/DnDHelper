@@ -26,6 +26,7 @@ public class PlayerServiceImpl implements PlayerService {
         return this.playerDAO.getPlayerByNick(nick);
     }
 
+  //TODO: check empty spaces
     @Transactional
     public void savePlayer(Player player) {
         this.playerDAO.savePlayer(player);

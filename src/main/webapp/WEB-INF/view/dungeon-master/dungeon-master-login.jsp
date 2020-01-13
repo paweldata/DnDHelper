@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html>
 <body>
-<h2>Login as a Player</h2>
+<h2>Login as a DungeonMaster</h2>
 <div>
-	<form:form action="login_validate" modelAttribute="player" method="POST" >			
+	<form:form action="login_validate" modelAttribute="dungeon_master" method="POST" >			
 			<table>
 				<tbody>
 					<tr>
@@ -25,9 +25,9 @@
 	
 	<p>
 		<a href="${pageContext.request.contextPath}">Back to logging options</a>
-	</p>	
+	</p>
 	<p>
-		<a href="${pageContext.request.contextPath}/player/create">Create Account</a>
+		<a href="${pageContext.request.contextPath}/dungeon-master/create">Create Account</a>
 	</p>
 </div>
 </body>

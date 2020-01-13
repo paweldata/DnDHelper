@@ -26,6 +26,7 @@ public class DungeonMasterServiceImpl implements DungeonMasterService {
         return this.dungeonMasterDAO.getDungeonMasterByNick(nick);
     }
 
+  //TODO: check empty spaces
     @Transactional
     public void saveDungeonMaster(DungeonMaster dungeonMaster) {
         this.dungeonMasterDAO.saveDungeonMaster(dungeonMaster);
@@ -36,4 +37,12 @@ public class DungeonMasterServiceImpl implements DungeonMasterService {
         this.dungeonMasterDAO.deleteDungeonMaster(nick);
     }
 
+	@Transactional
+	public boolean loginValidate(DungeonMaster dungeonMaster) {
+		DungeonMaster testDungeonMaster = this.getDungeonMasterByNick(dungeonMaster.getNick());
+		if (testDungeonMaster != null)
+			return (testDungeonMaster.getNick().equals(dungeonMaster.getNick()) &&
+					testDungeonMaster.getPassword().contentEquals(dungeonMaster.getPassword()));
+		return false;
+	}
 }

@@ -265,4 +265,5 @@ public class Character {
             this.items = new ArrayList<Item>();
         this.items.add(item);
     }
+    
 }

@@ -2,6 +2,7 @@ package dndhelper.dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -26,8 +27,8 @@ public class CharacterDAOImpl implements CharacterDAO {
     }
 
     public void saveCharacter(Character character) {
-        // TODO Auto-generated method stub
-
+    	Session session = sessionFactory.getCurrentSession();
+    	session.save(character);
     }
 
     public void deleteCharacter(int id) {

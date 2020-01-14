@@ -2,7 +2,9 @@ package dndhelper.dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,23 +18,30 @@ public class CampaignDAOImpl implements CampaignDAO {
     private SessionFactory sessionFactory;
     
     public List<Campaign> getCampaigns() {
-        // TODO Auto-generated method stub
-        return null;
+      Session session = this.sessionFactory.getCurrentSession();
+      List<Campaign> campaignList = session.createQuery("FROM campaign", Campaign.class).list();
+      
+      return campaignList;
     }
 
     public Campaign getCampaignById(int id) {
-        // TODO Auto-generated method stub
-        return null;
+      Session session = this.sessionFactory.getCurrentSession();
+      Campaign campaign = session.get(Campaign.class, id);
+      
+      return campaign;
     }
 
     public void saveCampaign(Campaign campaign) {
-        // TODO Auto-generated method stub
-
+      Session session = this.sessionFactory.getCurrentSession();
+      session.saveOrUpdate(campaign);
     }
 
     public void deleteCampaign(int id) {
-        // TODO Auto-generated method stub
-
+      Session session = this.sessionFactory.getCurrentSession();
+      
+      Query deleteQuery = session.createQuery("DELETE FROM campaign WHERE campaign.id LIKE :campaignId");
+      deleteQuery.setParameter("campaignId", id);
+      deleteQuery.executeUpdate();
     }
 
 }

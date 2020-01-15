@@ -14,6 +14,8 @@ import dndhelper.entity.Character;
 import dndhelper.entity.DungeonMaster;
 import dndhelper.entity.Player;
 import dndhelper.entity.enums.AllignmentEnum;
+import dndhelper.entity.enums.ClassEnum;
+import dndhelper.entity.enums.RaceEnum;
 import dndhelper.service.interfaces.CharacterService;
 import dndhelper.service.interfaces.PlayerService;
 
@@ -75,6 +77,8 @@ public class PlayerAppController {
 		Character character = new Character();
 		theModel.addAttribute(character);
 		theModel.addAttribute("allignments",AllignmentEnum.values());
+		theModel.addAttribute("races",RaceEnum.values());
+		theModel.addAttribute("classes",ClassEnum.values());
 		return "player/player-create-character";
 	}
 	

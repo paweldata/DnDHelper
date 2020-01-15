@@ -9,23 +9,28 @@
 <title>Character list</title>
 </head>
 <body>
-<h2>Characters in campaign</h2>
+<h2>NPCs in campaign</h2>
 
-	<a href="${pageContext.request.contextPath}/dungeon-master/campaign/character/add?campaignId=${campaign.id}">Add New Character</a> 
+	<a href="${pageContext.request.contextPath}/dungeon-master/campaign/npc/create?campaignId=${campaign.id}">Create New NPC</a> 
 
 	<table>
 		<tr>
 			<th>Name</th>
+			<th>Description</th>
+			<th>Secrets</th>
 		</tr>
 		
 		<!-- loop over and print our campaigns -->
-		<c:forEach var="character" items="${characterList}">
-			<c:url var="showCharacter" value="/dungeon-master/show-character">
-				<c:param name="characterNick" value="${character.nick}"></c:param>
+		<c:forEach var="npc" items="${npcs}">
+			<c:url var="editNpc" value="/dungeon-master/campaign/npc/edit">
+				<c:param name="npcId" value="${npc.id}"></c:param>
+				<c:param name="campaignId" value="${campaign.id}"></c:param>
 			</c:url>
 			<tr>
-				<td> ${character.nick} </td>
-				<td> <a href="${showCharacter}">Show Character</a></td>
+				<td> ${npc.name} </td>
+				<td> ${npc.description} </td>
+				<td> ${npc.secrets} </td>
+				<td> <a href="${editNpc}">Edit NPC</a></td>
 			</tr>
 		</c:forEach>	
 		

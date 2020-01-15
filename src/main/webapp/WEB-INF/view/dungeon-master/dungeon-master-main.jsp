@@ -6,6 +6,27 @@
 <html>
 <body>
 	<h2>DungeonMaster</h2>
-	<input type="button" value="Campaigns" onclick="window.location.href='campaigns'; return false;"/>
+	<h2>Your Campaigns List!</h2>
+	
+  	<a href="${pageContext.request.contextPath}/dungeon-master/campaign/create">Create New Campaign</a> 
+  
+	<table>
+		<tr>
+			<th>Name</th>
+		</tr>
+		
+		<!-- loop over and print our campaigns -->
+		<c:forEach var="campaign" items="${dungeonMaster.campaigns}">
+			<c:url var="showCampaign" value="/dungeon-master/campaign">
+				<c:param name="campaignId" value="${campaign.id}"></c:param>
+			</c:url>
+			<tr>
+				<td> ${campaign.name} </td>
+				<td> <a href="${showCampaign}">Show Campaign</a></td>
+			</tr>
+		</c:forEach>	
+		
+	</table>
+	
 </body>
 </html>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,8 +19,10 @@ public class CharacterDAOImpl implements CharacterDAO {
     private SessionFactory sessionFactory;
     
     public List<Character> getCharacters() {
-        // TODO Auto-generated method stub
-        return null;
+      Session session = this.sessionFactory.getCurrentSession();
+      List<Character> characterList = session.createQuery("FROM player_character", Character.class).list();
+      
+      return characterList;
     }
 
     public Character getCharacterById(int id) {

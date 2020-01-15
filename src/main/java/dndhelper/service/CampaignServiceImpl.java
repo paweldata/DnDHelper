@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dndhelper.dao.interfaces.CampaignDAO;
 import dndhelper.entity.Campaign;
+import dndhelper.entity.Character;
+import dndhelper.entity.Location;
+import dndhelper.entity.Npc;
 import dndhelper.service.interfaces.CampaignService;
 
 @Service
@@ -36,4 +39,13 @@ public class CampaignServiceImpl implements CampaignService {
         this.campaignDAO.deleteCampaign(id);
     }
 
+    @Transactional
+    public List<Location> getLocations(Campaign campaign) {
+      return this.campaignDAO.getLocations(campaign);
+    }
+
+    @Transactional
+    public List<Npc> getNpcs(Campaign campaign) {
+      return this.campaignDAO.getNpcs(campaign);
+    }
 }

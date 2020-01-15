@@ -1,19 +1,24 @@
 package dndhelper.config;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import dndhelper.entity.Character;
 import dndhelper.entity.Campaign;
 import dndhelper.entity.DungeonMaster;
+import dndhelper.entity.Location;
+import dndhelper.entity.Npc;
 import dndhelper.service.interfaces.CampaignService;
+import dndhelper.service.interfaces.CharacterService;
 import dndhelper.service.interfaces.DungeonMasterService;
+import dndhelper.service.interfaces.LocationService;
+import dndhelper.service.interfaces.NpcService;
 
 @Controller
 @RequestMapping("/dungeon-master")
@@ -23,12 +28,19 @@ public class DungeonMasterAppController {
 	private DungeonMasterService dungeonMasterService;
 	@Autowired
 	private CampaignService campaignService;
+	@Autowired
+	private CharacterService characterService;
+	@Autowired
+	private LocationService locationService;
+	@Autowired
+	private NpcService npcService;
+	
 	private String nick;
+	private int campaignId;
 
 	@RequestMapping("/login")
 	public String showDungeonMasterLoginPage(Model theModel) {
-		DungeonMaster dungeonMaster = new DungeonMaster();
-		theModel.addAttribute("dungeon_master", dungeonMaster);
+		theModel.addAttribute("dungeon_master", new DungeonMaster());
 		return "dungeon-master/dungeon-master-login";
 	}
 	
@@ -43,8 +55,7 @@ public class DungeonMasterAppController {
 	
 	@RequestMapping("/create")
 	public String showDungeonMasterCreatePage(Model theModel) {
-		DungeonMaster dungeonMaster = new DungeonMaster();
-		theModel.addAttribute("dungeon_master", dungeonMaster);
+		theModel.addAttribute("dungeon_master", new DungeonMaster());
 		return "dungeon-master/dungeon-master-create";
 	}
 	
@@ -62,9 +73,8 @@ public class DungeonMasterAppController {
 	
 	@RequestMapping("/campaign/create")
   public String showDungeonMasterCampaignCreatePage(Model theModel) {
-	  Campaign campaign = new Campaign();
     theModel.addAttribute("dungeonMaster", this.dungeonMasterService.getDungeonMasterByNick(this.nick));
-    theModel.addAttribute("campaign", campaign);
+    theModel.addAttribute("campaign", new Campaign());
     return "dungeon-master/dungeon-master-campaign-create";
   }
 	
@@ -72,36 +82,128 @@ public class DungeonMasterAppController {
   public String createCampaign(@ModelAttribute("campaign") Campaign campaign) {
 	  campaign.setDungeonMaster(this.dungeonMasterService.getDungeonMasterByNick(this.nick));
     this.campaignService.saveCampaign(campaign);
-    return "redirect:/dungeon-master/campaigns";
+    return "redirect:/dungeon-master/main";
   }
 	
-	@RequestMapping("/campaigns")
-	public String showDungeonMasterCampaignPage(Model theModel) {
-	  List<Campaign> campaigns = this.dungeonMasterService.getDungeonMasterByNick(nick).getCampaigns();
-	  theModel.addAttribute(campaigns);
-	  return "dungeon-master/show-campaigns";
-	}
-	
-	@RequestMapping("/show-campaign")
+	@RequestMapping("/campaign")
 	public String showCampaignPage(
 	    @RequestParam("campaignId") int campaignId, Model theModel) {
 	  
-	  Campaign campaign = this.campaignService.getCampaignById(campaignId);
-	  theModel.addAttribute(campaign);
-	  return "dungeon-master/show-campaign";
+	  DungeonMaster dungeonMaster = this.dungeonMasterService.getDungeonMasterByNick(this.nick);
+    for (Campaign campaign : dungeonMaster.getCampaigns()) {
+      if (campaign.getId() == campaignId) {
+        theModel.addAttribute(campaign);
+        return "dungeon-master/dungeon-master-campaign";
+      }  
+    }
+	  return "redirect:/dungeon-master/main";
 	}
 	
 	@PostMapping("/campaign/characters")
 	public String showCampainCharacterPage(@ModelAttribute("campaign") Campaign campaignWithId, 
 	    Model theModel) {
-	  Campaign campaign = this.campaignService.getCampaignById(campaignWithId.getId());
-	  theModel.addAttribute("campaign", campaign);
+	  theModel.addAttribute("campaign", this.campaignService.getCampaignById(campaignWithId.getId()));
 	  return "dungeon-master/campaign-characters";
 	}
 	
 	@RequestMapping("/campaign/character/add")
-	public String showCampaignCharacterAddPage() {
-	   //TODO
-	  return "";
+	public String showCampaignCharacterAddPage(
+	    @RequestParam("campaignId") int campaignId, Model theModel) {
+
+	  theModel.addAttribute("campaign", this.campaignService.getCampaignById(campaignId));
+	  
+	  //TODO: usunac postacie ktore juz sa w kampanii
+	  //List<Character> characterList = this.characterService.getCharacters();
+	  theModel.addAttribute("characters", this.characterService.getCharacters());
+	  return "dungeon-master/campaign-character-add";
 	}
+	
+	@RequestMapping("/campaign/character/add-character")
+  public String AddCharacterToCampaign(
+      @RequestParam("campaignId") int campaignId,
+      @RequestParam("characterId") int characterId, Model theModel) {
+    
+	  Campaign campaign = this.campaignService.getCampaignById(campaignId);
+	  campaign.addCharacter(this.characterService.getCharacterById(characterId));
+	  this.campaignService.saveCampaign(campaign);
+	  
+    return "redirect:/dungeon-master/campaign/characters";
+  }
+	
+	@PostMapping("/campaign/locations")
+  public String showCampainLocationPage(@ModelAttribute("campaign") Campaign campaignWithId, 
+      Model theModel) {
+	  Campaign campaign = this.campaignService.getCampaignById(campaignWithId.getId());
+    theModel.addAttribute("campaign", campaign);
+    theModel.addAttribute("locations", this.campaignService.getLocations(campaign));
+    return "dungeon-master/campaign-locations";
+  }
+	
+	@RequestMapping("/campaign/location/create")
+  public String showCampaignLocationAddPage(
+      @RequestParam("campaignId") int campaignId, Model theModel) {
+	  Campaign campaign = this.campaignService.getCampaignById(campaignId);
+	  Location location = new Location();
+	  location.setCampaign(campaign);
+	  
+    theModel.addAttribute("location", location);
+    return "dungeon-master/campaign-location-create";
+  }
+	
+	@PostMapping("/campaign/location/location-create")
+  public String createLocation(@ModelAttribute("location") Location location) { 
+	  this.locationService.saveLocation(location);
+    return "redirect:/dungeon-master/campaign?campaignId=" + location.getCampaign().getId();
+  }
+	
+	@RequestMapping("/campaign/location/edit")
+  public String showCampaignLocationEditPage(
+      @RequestParam("campaignId") int campaignId,
+      @RequestParam("locationId") int locationId, Model theModel) {
+    theModel.addAttribute("location", this.locationService.getLocationById(locationId));
+    return "dungeon-master/campaign-location-edit";
+  }
+	
+	@PostMapping("/campaign/location/location-edit")
+	public String editLocation(@ModelAttribute("location") Location location) {
+	  this.locationService.saveLocation(location);
+	  return "redirect:/dungeon-master/campaign?campaignId=" + location.getCampaign().getId();
+	}
+	
+	@RequestMapping("/campaign/npc")
+	public String showCampainNpcsPage(@ModelAttribute("campaign") Campaign campaignWithId, 
+      Model theModel) {
+    theModel.addAttribute("campaign", this.campaignService.getCampaignById(campaignWithId.getId()));
+    theModel.addAttribute("npcs", this.campaignService.getNpcs(campaignWithId));
+    return "dungeon-master/campaign-npcs";
+  }
+	
+	@RequestMapping("/campaign/npc/create")
+  public String showCampaignNpcCreatePage(
+      @RequestParam("campaignId") int campaignId, Model theModel) {
+    Npc npc = new Npc();
+    npc.setCampaign(this.campaignService.getCampaignById(campaignId));
+    theModel.addAttribute("npc", npc);
+    return "dungeon-master/campaign-npc-create";
+  }
+	
+	@PostMapping("/campaign/npc/npc-create")
+	public String createNpc(@ModelAttribute("npc") Npc npc) {
+    this.npcService.saveNpc(npc);
+    return "redirect:/dungeon-master/campaign?campaignId=" + npc.getCampaign().getId();
+  }
+	
+	@RequestMapping("/campaign/npc/edit")
+  public String showCampaignNpcEditPage(
+      @RequestParam("campaignId") int campaignId,
+      @RequestParam("npcId") int npcId, Model theModel) {
+    theModel.addAttribute("npc", this.npcService.getNpcById(npcId));
+    return "dungeon-master/campaign-npc-edit";
+  }
+	
+	@PostMapping("/campaign/npc/npc-edit")
+  public String editNpc(@ModelAttribute("npc") Npc npc) {
+    this.npcService.saveNpc(npc);
+    return "redirect:/dungeon-master/campaign?campaignId=" + npc.getCampaign().getId();
+  }
 }

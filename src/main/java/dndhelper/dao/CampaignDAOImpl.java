@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import dndhelper.dao.interfaces.CampaignDAO;
 import dndhelper.entity.Campaign;
+import dndhelper.entity.Character;
+import dndhelper.entity.Location;
+import dndhelper.entity.Npc;
 
 @Repository
 public class CampaignDAOImpl implements CampaignDAO {
@@ -44,4 +47,25 @@ public class CampaignDAOImpl implements CampaignDAO {
       deleteQuery.executeUpdate();
     }
 
+    public List<Location> getLocations(Campaign campaign) {
+      Session session = this.sessionFactory.getCurrentSession();
+      
+      int campaignId = campaign.getId();
+      Query query = session.createQuery("FROM Location WHERE id_campaign LIKE :campaignId");
+      query.setParameter("campaignId", campaignId);
+      List<Location> locationList = query.list();
+      
+      return locationList;
+    }
+
+    public List<Npc> getNpcs(Campaign campaign) {
+      Session session = this.sessionFactory.getCurrentSession();
+      
+      int campaignId = campaign.getId();
+      Query query = session.createQuery("FROM Npc WHERE id_campaign LIKE :campaignId");
+      query.setParameter("campaignId", campaignId);
+      List<Npc> npcList = query.list();
+      
+      return npcList;
+    }
 }

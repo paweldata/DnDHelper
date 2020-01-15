@@ -14,6 +14,8 @@ import dndhelper.entity.Character;
 import dndhelper.entity.DungeonMaster;
 import dndhelper.entity.Player;
 import dndhelper.entity.enums.AllignmentEnum;
+import dndhelper.entity.enums.ClassEnum;
+import dndhelper.entity.enums.RaceEnum;
 import dndhelper.service.interfaces.CharacterService;
 import dndhelper.service.interfaces.PlayerService;
 
@@ -31,6 +33,8 @@ public class PlayerAppController {
 	
 	@RequestMapping("/menu")
 	public String showPlayerMainPage(Model theModel) {
+		List<Character> characters = playerService.getPlayerByNick(nick).getCharacters();
+		theModel.addAttribute(characters);
 		return "player/player-main";
 	}
 
@@ -64,24 +68,41 @@ public class PlayerAppController {
 		return "player/player-login";
 	}
 
-	@RequestMapping("/characters")
+	@RequestMapping("/character")
 	public String showPlayerCharactersPage(Model theModel) {
-		List<Character> characters = playerService.getPlayerByNick(nick).getCharacters();
-		theModel.addAttribute(characters);
-		return "player/show-characters";
+		return "redirect:/player/menu";
 	}
-	@RequestMapping("/characters/create")
+	@RequestMapping("/character/create_character")
 	public String showCharacterCreatePage(Model theModel) {
 		Character character = new Character();
 		theModel.addAttribute(character);
 		theModel.addAttribute("allignments",AllignmentEnum.values());
-		return "player/player-create-character";
+		theModel.addAttribute("races",RaceEnum.values());
+		theModel.addAttribute("classes",ClassEnum.values());
+		return "player/show-character-form";
 	}
 	
-	@PostMapping("/characters/create_character")
+	@RequestMapping("/character/show_character")
+	public String showCharacterCreatePage(@ModelAttribute("characterId") int characterId, Model theModel) {
+		List <Character> characters = playerService.getPlayerByNick(nick).getCharacters();
+		Character character;
+		for(Character tempCh : characters) {
+			if(characterId == tempCh.getId()) {
+				character = tempCh;
+				theModel.addAttribute("allignments",AllignmentEnum.values());
+				theModel.addAttribute("races",RaceEnum.values());
+				theModel.addAttribute("classes",ClassEnum.values());
+				theModel.addAttribute(character);
+				return "player/show-character-form";
+			}
+		}
+		return "redirect:/player/menu";
+	}
+	
+	@PostMapping("/character/save_character")
 	public String createCharacter(@ModelAttribute("character") Character character) {
 		character.setPlayer(playerService.getPlayerByNick(nick));
 		this.characterService.saveCharacter(character);
-		return "redirect:/player/characters";
+		return "redirect:/player/menu";
 	}
 }

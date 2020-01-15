@@ -15,7 +15,7 @@
 					</tr>
 					<tr>
 						<td><label>Password:</label></td>
-						<td><form:input path="password" required="required"/></td>
+						<td><form:input path="password" type="password" required="required"/></td>
 					</tr>
 					<tr>
 						<td><label>Mail:</label></td>

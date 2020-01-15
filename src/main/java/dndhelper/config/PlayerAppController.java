@@ -62,7 +62,7 @@ public class PlayerAppController {
 		return "player/player-create";
 	}
 
-	@PostMapping("/create_account")
+	@PostMapping("/create_player")
 	public String createAccount(@ModelAttribute("player") Player player) {
 		this.playerService.savePlayer(player);
 		return "player/player-login";
@@ -105,4 +105,11 @@ public class PlayerAppController {
 		this.characterService.saveCharacter(character);
 		return "redirect:/player/menu";
 	}
+	
+	@RequestMapping("/character/delete_character")
+	public String deletePlayerCharacters(@ModelAttribute("characterId") int characterId) {
+		characterService.deleteCharacter(characterId);
+		return "redirect:/player/menu";
+	}
+
 }

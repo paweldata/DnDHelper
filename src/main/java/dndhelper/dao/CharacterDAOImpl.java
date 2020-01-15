@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import dndhelper.dao.interfaces.CharacterDAO;
 import dndhelper.entity.Character;
+import dndhelper.entity.Item;
 
 @Repository
 public class CharacterDAOImpl implements CharacterDAO {
@@ -22,8 +23,9 @@ public class CharacterDAOImpl implements CharacterDAO {
     }
 
     public Character getCharacterById(int id) {
-        // TODO Auto-generated method stub
-        return null;
+    	Session session = sessionFactory.getCurrentSession();
+    	Character character = session.get(Character.class, id);
+        return character;
     }
 
     public void saveCharacter(Character character) {
@@ -32,8 +34,16 @@ public class CharacterDAOImpl implements CharacterDAO {
     }
 
     public void deleteCharacter(int id) {
-        // TODO Auto-generated method stub
-
+    	Session session = sessionFactory.getCurrentSession();
+    	Character character = session.get(Character.class, id);
+    	character.getPlayer().getCharacters().remove(character);
+    	List <Item> items = character.getItems();
+    	if(!items.isEmpty()) {
+    		for(Item tempItem : items) {
+    			tempItem.getCharacters().remove(character);
+    		}
+    	}
+    	session.delete(character);
     }
 
 }

@@ -32,9 +32,9 @@ public class Character {
     @Column(name = "speed") private int speed;
     
     @Column(name = "name") private String name;
-    @Column(name = "race") private String race; //TODO: enum
-    @Column(name = "class") private String charClass; //TODO: enum
-    @Column(name = "allignment") private String allignment; //TODO: enum
+    @Column(name = "race") private String race;
+    @Column(name = "class") private String charClass;
+    @Column(name = "allignment") private String allignment;
     @Column(name = "background") private String background;
     
     @Column(name = "strength") private int strength;

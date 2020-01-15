@@ -18,17 +18,27 @@
 					</tr>
 					<tr>
 						<td><label>Race:</label></td>
-						<td><form:input path="race" required="required"/></td>
+						<td>
+							<form:select path="race">
+    							<form:options items="${races}" itemValue="race" itemLabel="race" />
+							</form:select>
+						</td>
 					</tr>
 					<tr>
 						<td><label>Class:</label></td>
-						<td><form:input path="charClass" required="required"/></td>
+						<td>
+							<form:select path="charClass">
+    							<form:options items="${classes}" itemValue="dndClass" itemLabel="dndClass" />
+							</form:select>
+						</td>
 					</tr>
 					<tr>
 						<td><label>Allignment:</label></td>
-						<td><form:select path="allignment">
-    						<form:options items="${allignments}" itemValue="shortName" itemLabel="fullName" />
-						</form:select></td>
+						<td>
+							<form:select path="allignment">
+    							<form:options items="${allignments}" itemValue="shortName" itemLabel="fullName" />
+							</form:select>
+						</td>
 					</tr>	
 					<tr>
 						<td><label>Level:</label></td>

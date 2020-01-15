@@ -53,7 +53,7 @@ public class Character {
                     CascadeType.MERGE,})
     @JoinTable(
             name="character_campaign",
-            joinColumns=@JoinColumn(name="id_character"),
+            joinColumns=@JoinColumn(name="id_player_character"),
             inverseJoinColumns=@JoinColumn(name="id_campaign")
             )
     private List<Campaign> campaigns;
@@ -62,9 +62,9 @@ public class Character {
             cascade= {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH,
                     CascadeType.MERGE,})
     @JoinTable(
-            name="item_character",
-            joinColumns=@JoinColumn(name="id_character"),
-            inverseJoinColumns=@JoinColumn(name="id_item")
+            name="item_player_character",
+            joinColumns=@JoinColumn(name="id_player_character"),
+            inverseJoinColumns=@JoinColumn(name="name_item")
             )
     private List<Item> items;
     

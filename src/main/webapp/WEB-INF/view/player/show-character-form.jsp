@@ -1,34 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-   <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Charcter Creation</title>
+<title>Character list</title>
 </head>
 <body>
-<h2>New Character Creationn:</h2>
-<form:form action="create_character" modelAttribute="character" method="POST" >			
+<h2>Your Characters List!</h2>
+  <form:form action="save_character" modelAttribute="character" method="POST" >			
 			<table>
 				<tbody>
+					<form:hidden path="id" />
 					<tr>
 						<td><label>Name:</label></td>
 						<td><form:input  path="name" required="required"/></td>
 					</tr>
 					<tr>
 						<td><label>Race:</label></td>
-						<td><form:input path="race" required="required"/></td>
+						<td>
+							<form:select path="race">
+    							<form:options items="${races}" itemValue="race" itemLabel="race" />
+							</form:select>
+						</td>
 					</tr>
 					<tr>
 						<td><label>Class:</label></td>
-						<td><form:input path="charClass" required="required"/></td>
+						<td>
+							<form:select path="charClass">
+    							<form:options items="${classes}" itemValue="dndClass" itemLabel="dndClass" />
+							</form:select>
+						</td>
 					</tr>
 					<tr>
 						<td><label>Allignment:</label></td>
-						<td><form:select path="allignment">
-    						<form:options items="${allignments}" itemValue="shortName" itemLabel="fullName" />
-						</form:select></td>
+						<td>
+							<form:select path="allignment">
+    							<form:options items="${allignments}" itemValue="shortName" itemLabel="fullName" />
+							</form:select>
+						</td>
 					</tr>	
 					<tr>
 						<td><label>Level:</label></td>
@@ -76,14 +88,13 @@
 						<td><form:input path="background" required="required"/></td>
 					</tr>		
 					<tr>
-						<td><input type="submit" value="create"/></td>
+						<td><input type="submit" value="Save"/></td>
 					</tr>
 				</tbody>
 			</table>
 	</form:form>
-	
 	<p>
-		<a href="${pageContext.request.contextPath}/player/characters/">Back to characters</a>
-	</p>
+		<a href="${pageContext.request.contextPath}/player/menu">Back to Player options</a>
+	</p>	
 </body>
 </html>

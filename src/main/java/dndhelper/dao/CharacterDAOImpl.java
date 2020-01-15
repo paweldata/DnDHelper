@@ -28,7 +28,7 @@ public class CharacterDAOImpl implements CharacterDAO {
 
     public void saveCharacter(Character character) {
     	Session session = sessionFactory.getCurrentSession();
-    	session.save(character);
+    	session.saveOrUpdate(character);
     }
 
     public void deleteCharacter(int id) {

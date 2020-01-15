@@ -20,14 +20,7 @@ public class Item {
     @Id
     @Column(name = "name") private String name;
     
-    @ManyToMany(fetch=FetchType.LAZY,
-            cascade= {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH,
-                    CascadeType.MERGE,})
-    @JoinTable(
-            name="item_character",
-            joinColumns=@JoinColumn(name="id_item"),
-            inverseJoinColumns=@JoinColumn(name="id_character")
-            )
+    @ManyToMany(mappedBy = "items")
     private List<Character> characters;
     
     public Item() {}

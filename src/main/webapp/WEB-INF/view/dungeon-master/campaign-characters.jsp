@@ -11,7 +11,7 @@
 <body>
 <h2>Characters in campaign</h2>
 
-	<a href="${pageContext.request.contextPath}/dungeon-master/campaign/character/add">Add New Character</a> 
+	<a href="${pageContext.request.contextPath}/dungeon-master/campaign/character/add?campaignId=${campaign.id}">Add New Character</a> 
 
 	<table>
 		<tr>
@@ -32,7 +32,7 @@
 	</table>
 	
 	<p>
-		<a href="${pageContext.request.contextPath}/dungeon-master/show-campaign?campaignId=${campaign.id}">Back to campaign</a>
+		<a href="${pageContext.request.contextPath}/dungeon-master/campaign?campaignId=${campaign.id}">Back to campaign</a>
 	</p>	
 </body>
 </html>

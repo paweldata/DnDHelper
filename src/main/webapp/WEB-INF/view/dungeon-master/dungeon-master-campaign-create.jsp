@@ -23,7 +23,7 @@
 	</div>
 	
 	<p>
-		<a href="${pageContext.request.contextPath}/dungeon-master/campaigns/">Back to campaigns</a>
+		<a href="${pageContext.request.contextPath}/dungeon-master/main/">Back to main</a>
 	</p>
 	
 </body>

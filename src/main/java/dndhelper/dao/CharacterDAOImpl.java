@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,13 +18,17 @@ public class CharacterDAOImpl implements CharacterDAO {
     private SessionFactory sessionFactory;
     
     public List<Character> getCharacters() {
-        // TODO Auto-generated method stub
-        return null;
+      Session session = this.sessionFactory.getCurrentSession();
+      List<Character> characterList = session.createQuery("FROM player_character", Character.class).list();
+      
+      return characterList;
     }
 
     public Character getCharacterById(int id) {
-        // TODO Auto-generated method stub
-        return null;
+      Session session = this.sessionFactory.getCurrentSession();
+      Character character = session.get(Character.class, id);
+      
+      return character;
     }
 
     public void saveCharacter(Character character) {
@@ -32,8 +37,12 @@ public class CharacterDAOImpl implements CharacterDAO {
     }
 
     public void deleteCharacter(int id) {
-        // TODO Auto-generated method stub
-
+      Session session = this.sessionFactory.getCurrentSession();
+      
+      Query deleteQuery = session.createQuery(
+          "DELETE FROM player_character WHERE character.id LIKE :characterId");
+      deleteQuery.setParameter("characterId", id);
+      deleteQuery.executeUpdate();
     }
 
 }

@@ -1,7 +1,10 @@
 package dndhelper.config;
 
+import java.awt.Image;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,6 +66,18 @@ public class AdminAppController {
 	public String showShowMonsterPage(@ModelAttribute("monsterId") int monsterId, Model theModel) {
 		Monster monster = monsterService.getMonsterById(monsterId);
 			if(monster != null) {
+				if(monster.getImage() != null) {
+					byte[] encodeBase64 = Base64.encodeBase64(monster.getImage());
+					String base64Encoded;
+					try {
+						base64Encoded = new String(encodeBase64, "UTF-8");
+						theModel.addAttribute("statImage", base64Encoded);
+					} catch (UnsupportedEncodingException e) {
+						System.out.println("Monster linia ok 75");
+						e.printStackTrace();
+					}
+					
+				}
 				theModel.addAttribute(monster);
 				return "admin/show-monster-form";
 			}

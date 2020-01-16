@@ -45,9 +45,7 @@
 						<td> ${tempMonster.wisdom} </td>
 						<td> ${tempMonster.charisma} </td>
 						<td> 
-							<a href="${showMonsterLink}">Show Character</a>
-							|
-							Tu bedzie rozszerzanie do obrazka?
+							<a href="${showMonsterLink}">Show Monster</a>
 							|
 							<a href="${deleteMonsterLink}" onclick="if(!(confirm('Are you sure you want to delete this monster?'))) return false">Delete Monster</a>
 						</td>

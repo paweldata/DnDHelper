@@ -9,8 +9,9 @@
 <title>Monster Form</title>
 </head>
 <body>
+<img alt="Stats image not added." src="data:image/jpeg;base64,${statImage}" />
 <h2>Monster Form</h2>
-  <form:form action="save_monster" modelAttribute="monster" method="POST" >			
+  <form:form action="save_monster" modelAttribute="monster" method="POST" enctype="multipart/form-data">			
 			<table>
 				<tbody>
 					<form:hidden  path="id"/>
@@ -57,7 +58,11 @@
 					<tr>
 						<td><label>Charisma:</label></td>
 						<td><form:input type="number" path="charisma"/></td>
-					</tr>		
+					</tr>	
+					<tr>
+						<td><label>Image:</label></td>
+						<td><form:input type="file" path="image"/></td>
+					</tr>	
 					<tr>
 						<td><input type="submit" value="Save"/></td>
 					</tr>

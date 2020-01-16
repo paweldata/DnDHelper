@@ -1,5 +1,6 @@
 package dndhelper.entity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "monster")
@@ -99,8 +102,12 @@ public class Monster {
         return image;
     }
     
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setImage(MultipartFile image) {
+        try {
+			this.image = image.getBytes();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     public int getArmorClass() {

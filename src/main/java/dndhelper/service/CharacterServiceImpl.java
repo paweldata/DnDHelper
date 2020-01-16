@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dndhelper.dao.interfaces.CharacterDAO;
+import dndhelper.entity.Campaign;
 import dndhelper.entity.Character;
 import dndhelper.service.interfaces.CharacterService;
 
@@ -34,6 +35,14 @@ public class CharacterServiceImpl implements CharacterService {
     @Transactional
     public void deleteCharacter(int id) {
         this.characterDAO.deleteCharacter(id);
+    }
+
+    @Transactional
+    public List<Campaign> getCampaigns(Character character) {
+      List<Campaign> campaigns = character.getCampaigns();
+      for (Campaign campaign : campaigns)
+        System.out.println(campaign.getId());
+      return campaigns;
     }
 
 }

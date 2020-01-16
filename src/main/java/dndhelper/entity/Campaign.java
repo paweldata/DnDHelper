@@ -38,15 +38,8 @@ public class Campaign {
     @ManyToOne(cascade= {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH,CascadeType.MERGE,})
     @JoinColumn(name="nick_dungeon_master")
     private DungeonMaster dungeonMaster;
-
-    @ManyToMany(fetch=FetchType.LAZY,
-            cascade= {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH,
-                    CascadeType.MERGE,})
-    @JoinTable(
-            name="character_campaign",
-            joinColumns=@JoinColumn(name="id_campaign"),
-            inverseJoinColumns=@JoinColumn(name="id_character")
-            )
+    
+    @ManyToMany(mappedBy = "campaigns")
     private List<Character> characters;
     
     public Campaign() {}

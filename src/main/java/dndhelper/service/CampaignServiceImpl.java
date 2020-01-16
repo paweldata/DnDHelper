@@ -48,4 +48,12 @@ public class CampaignServiceImpl implements CampaignService {
     public List<Npc> getNpcs(Campaign campaign) {
       return this.campaignDAO.getNpcs(campaign);
     }
+
+    @Transactional
+    public List<dndhelper.entity.Character> getCharacters(Campaign campaign) {
+      List<dndhelper.entity.Character> characters = campaign.getCharacters();
+      for(Character tempCh : characters)
+        System.out.println("Characters " + tempCh.getName() + "\n");
+      return characters;
+    }
 }

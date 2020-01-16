@@ -31,6 +31,9 @@
 		</table>
 			
 	</form:form>
+
+	<a href="${pageContext.request.contextPath}/dungeon-master/campaign/npcs?campaignId=${campaign.id}">Back to npcs list</a> 
+
 	
 </body>
 </html>

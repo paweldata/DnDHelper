@@ -15,4 +15,5 @@ public interface CampaignService {
     public void deleteCampaign(int id);
     public List<Location> getLocations(Campaign campaign);
     public List<Npc> getNpcs(Campaign campaign);
+    public List<dndhelper.entity.Character> getCharacters(Campaign campaign);
 }

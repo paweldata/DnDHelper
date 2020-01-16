@@ -68,4 +68,26 @@ public class CampaignDAOImpl implements CampaignDAO {
       
       return npcList;
     }
+
+    @Override
+    public List<dndhelper.entity.Character> getCharacters(Campaign campaign1) {
+      //int campaignId = campaign.getId();
+      Session session = this.sessionFactory.getCurrentSession();
+      //campaign1 = session.get(Campaign.class, campaign1.getId());
+      Campaign campaign = (Campaign) session.merge(campaign1);
+      List<dndhelper.entity.Character> characters = campaign.getCharacters();
+      return characters;
+      
+      /*Query query = session.createQuery("FROM Character as c INNER JOIN c.campaigns as cc "
+          + " WHERE cc.id LIKE :campaignId");
+      query.setParameter("campaignId", campaignId);
+      List<dndhelper.entity.Character> characterList = query.list();*/
+
+      //return characterList;
+    }
 }
+
+/**
+ * + " c.id, c.level, c.exp, c.armorClass, c.hitPoints, "
+          + "c.speed, c.name, c.race, c.class, c.allignment, c.background, "
+          + "c.strength, c,dexternity, c.conctitution, c,intelligence, c.wisdom, c.charisma "*/

@@ -21,15 +21,15 @@
 			<th>Race</th>
 			<th>Class</th>
 			<th>Allignment</th>
-			<th>Armor class</th>
-			<th>Hit points</th>
+			<th>AC</th>
+			<th>HP</th>
 			<th>Speed</th>
-			<th>Strength</th>
-			<th>Dexternity</th>
-			<th>Constitution</th>
-			<th>Intelligence</th>
-			<th>Wisdom</th>
-			<th>Charisma</th>
+			<th>STR</th>
+			<th>DEX</th>
+			<th>CON</th>
+			<th>INT</th>
+			<th>WIS</th>
+			<th>CHA</th>
 			<th>Background</th>
 		</tr>
 		
@@ -67,8 +67,8 @@
 	
 	<form action="giveExp" method="get">			
 		<table>
-			<form:hidden path="campaign.id"/>
 			<tbody>
+				<input type="hidden" name="campaignId" value="${campaign.id}"/>
 				<tr>
 					<td><label>Exp:</label></td>
 					<td><input type="text" name="exp"/></td>
@@ -83,8 +83,7 @@
 			</tbody>
 		</table>
 			
-	</
-	<form>
+	</form>
 	
 	<p>
 		<a href="${pageContext.request.contextPath}/dungeon-master/campaign?campaignId=${campaign.id}">Back to campaign</a>

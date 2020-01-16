@@ -56,4 +56,9 @@ public class CampaignServiceImpl implements CampaignService {
         System.out.println("Characters " + tempCh.getName() + "\n");
       return characters;
     }
+
+    @Transactional
+    public void addExp(int id, int exp, int maxExp) {
+      this.campaignDAO.addExp(id, exp, maxExp);
+    }
 }

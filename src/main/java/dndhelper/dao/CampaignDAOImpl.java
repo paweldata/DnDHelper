@@ -71,19 +71,20 @@ public class CampaignDAOImpl implements CampaignDAO {
 
     @Override
     public List<dndhelper.entity.Character> getCharacters(Campaign campaign1) {
-      //int campaignId = campaign.getId();
       Session session = this.sessionFactory.getCurrentSession();
-      //campaign1 = session.get(Campaign.class, campaign1.getId());
       Campaign campaign = (Campaign) session.merge(campaign1);
       List<dndhelper.entity.Character> characters = campaign.getCharacters();
       return characters;
-      
-      /*Query query = session.createQuery("FROM Character as c INNER JOIN c.campaigns as cc "
-          + " WHERE cc.id LIKE :campaignId");
-      query.setParameter("campaignId", campaignId);
-      List<dndhelper.entity.Character> characterList = query.list();*/
+    }
 
-      //return characterList;
+    @Override
+    public void addExp(int id, int exp, int maxExp) {
+      Session session = this.sessionFactory.getCurrentSession();
+      Query query = session.createSQLQuery("CALL addExp(:campaignId, :exp, :maxExp)")
+        .setParameter("campaignId", id)
+        .setParameter("exp", exp)
+        .setParameter("maxExp", maxExp);
+      query.executeUpdate();
     }
 }
 

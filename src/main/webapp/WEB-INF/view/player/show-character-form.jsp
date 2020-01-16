@@ -44,11 +44,11 @@
 					</tr>	
 					<tr>
 						<td><label>Level:</label></td>
-						<td><form:input type="number" path="level" value="1" required="required"/></td>
+						<td><form:input type="number" path="level" disabled="true" required="required"/></td>
 					</tr>
 					<tr>
 						<td><label>Experience:</label></td>
-						<td><form:input type="number" path="exp" value="0" required="required"/></td>
+						<td><form:input type="number" path="exp"  required="required"/></td>
 					</tr>
 					<tr>
 						<td><label>Armor Class:</label></td>

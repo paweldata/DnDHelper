@@ -88,7 +88,17 @@ public class AdminAppController {
 	
 	@RequestMapping("/options")
 	public String showOptionsPage(Model theModel) {
-		return "admin/admin-main";
+		return "admin/options";
+	}
+	
+	@RequestMapping("/options/backup")
+	public String backupDatabase(Model theModel) {
+		return "admin/options";
+	}
+	
+	@RequestMapping("/options/restore")
+	public String restoreDatabase(Model theModel) {
+		return "admin/options";
 	}
 
 	@RequestMapping("/login")

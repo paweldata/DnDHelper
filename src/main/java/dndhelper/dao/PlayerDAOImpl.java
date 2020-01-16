@@ -21,7 +21,7 @@ public class PlayerDAOImpl implements PlayerDAO {
     
     public List<Player> getPlayers() {
         Session session = this.sessionFactory.getCurrentSession();
-        List<Player> playerList = session.createQuery("FROM player", Player.class).list();
+        List<Player> playerList = session.createQuery("from Player", Player.class).list();
         
         return playerList;
     }

@@ -19,7 +19,7 @@ public class DungeonMasterDAOImpl implements DungeonMasterDAO {
 
     public List<DungeonMaster> getDungeonMasters() {
         Session session = this.sessionFactory.getCurrentSession();
-        List<DungeonMaster> dungeonMasterList = session.createQuery("FROM dungeonMaster", DungeonMaster.class).list();
+        List<DungeonMaster> dungeonMasterList = session.createQuery("From DungeonMaster", DungeonMaster.class).list();
         
         return dungeonMasterList;
     }

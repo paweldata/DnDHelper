@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -37,12 +36,10 @@ public class LocationDAOImpl implements LocationDAO {
     }
 
     public void deleteLocation(int id) {
-      Session session = this.sessionFactory.getCurrentSession();
-      
-      Query deleteQuery = session.createQuery(
-          "DELETE FROM location WHERE location.id LIKE :locationID");
-      deleteQuery.setParameter("locationId", id);
-      deleteQuery.executeUpdate();
+      Session session = sessionFactory.getCurrentSession();
+      Location location = session.get(Location.class, id);
+      location.getCampaign().getNpcs().remove(location);
+      session.delete(location);
     }
 
 }

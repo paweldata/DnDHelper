@@ -4,13 +4,10 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dndhelper.dao.interfaces.NpcDAO;
-import dndhelper.entity.Campaign;
-import dndhelper.entity.Location;
 import dndhelper.entity.Npc;
 
 @Repository
@@ -39,11 +36,10 @@ public class NpcDAOImpl implements NpcDAO {
     }
 
     public void deleteNpc(int id) {
-      Session session = this.sessionFactory.getCurrentSession();
-      
-      Query deleteQuery = session.createQuery("DELETE FROM Npc WHERE npc.id LIKE :npcId");
-      deleteQuery.setParameter("npcId", id);
-      deleteQuery.executeUpdate();
+      Session session = sessionFactory.getCurrentSession();
+      Npc npc = session.get(Npc.class, id);
+      npc.getCampaign().getNpcs().remove(npc);
+      session.delete(npc);
     }
 
 }

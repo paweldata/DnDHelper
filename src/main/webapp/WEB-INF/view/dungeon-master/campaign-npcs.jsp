@@ -26,11 +26,16 @@
 				<c:param name="npcId" value="${npc.id}"></c:param>
 				<c:param name="campaignId" value="${campaign.id}"></c:param>
 			</c:url>
+			<c:url var="deleteNpc" value="/dungeon-master/campaign/npc/delete">
+				<c:param name="npcId" value="${npc.id}"></c:param>
+				<c:param name="campaignId" value="${campaign.id}"></c:param>
+			</c:url>
 			<tr>
 				<td> ${npc.name} </td>
 				<td> ${npc.description} </td>
 				<td> ${npc.secrets} </td>
 				<td> <a href="${editNpc}">Edit NPC</a></td>
+				<td> <a href="${deleteNpc}" onclick="if(!(confirm('Are you sure you want to delete this npc?'))) return false">Delete NPC</a></td>
 			</tr>
 		</c:forEach>	
 		

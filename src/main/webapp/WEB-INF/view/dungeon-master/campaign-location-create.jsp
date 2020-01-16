@@ -9,7 +9,7 @@
 	
 	<form:form action="location-create" modelAttribute="location" method="POST" >			
 		<table>
-			<form:hidden path='campaign.id'/>
+			<form:hidden path="campaign.id"/>
 			<tbody>
 				<tr>
 					<td><label>Name:</label></td>
@@ -30,6 +30,8 @@
 		</table>
 			
 	</form:form>
+	
+	<a href="${pageContext.request.contextPath}/dungeon-master/campaign/locations?campaignId=${campaign.id}">Back to locations list</a> 
 	
 </body>
 </html>

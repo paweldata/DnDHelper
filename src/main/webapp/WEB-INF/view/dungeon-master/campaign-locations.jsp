@@ -26,12 +26,17 @@
 				<c:param name="locationId" value="${location.id}"></c:param>
 				<c:param name="campaignId" value="${campaign.id}"></c:param>
 			</c:url>
+			<c:url var="deleteLocation" value="/dungeon-master/campaign/location/delete">
+				<c:param name="locationId" value="${location.id}"></c:param>
+				<c:param name="campaignId" value="${campaign.id}"></c:param>
+			</c:url>
 			
 			<tr>
 				<td> ${location.name} </td>
 				<td> ${location.description} </td>
 				<td> ${location.secrets} </td>
 				<td> <a href="${editLocation}">Edit Location</a></td>
+				<td> <a href="${deleteLocation}" onclick="if(!(confirm('Are you sure you want to delete this location?'))) return false">Delete Location</a></td>
 			</tr>
 		</c:forEach>	
 		

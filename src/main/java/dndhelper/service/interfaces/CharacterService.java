@@ -2,6 +2,7 @@ package dndhelper.service.interfaces;
 
 import java.util.List;
 
+import dndhelper.entity.Campaign;
 import dndhelper.entity.Character;
 
 public interface CharacterService {
@@ -10,4 +11,5 @@ public interface CharacterService {
     public Character getCharacterById(int id);
     public void saveCharacter(Character character);
     public void deleteCharacter(int id);
+    public List<Campaign> getCampaigns(Character character);
 }

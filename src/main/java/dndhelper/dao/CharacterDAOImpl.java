@@ -20,7 +20,7 @@ public class CharacterDAOImpl implements CharacterDAO {
     
     public List<Character> getCharacters() {
       Session session = this.sessionFactory.getCurrentSession();
-      List<Character> characterList = session.createQuery("FROM player_character", Character.class).list();
+      List<Character> characterList = session.createQuery("FROM Character", Character.class).list();
       
       return characterList;
     }

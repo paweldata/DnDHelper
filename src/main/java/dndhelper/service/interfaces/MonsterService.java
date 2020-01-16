@@ -7,7 +7,7 @@ import dndhelper.entity.Monster;
 public interface MonsterService {
 
     public List<Monster> getMonsters();
-    public Monster getMonsterByName(String name);
+    public Monster getMonsterById(int id);
     public void saveMonster(Monster monster);
-    public void deleteMonster(String name);
+    public void deleteMonster(int id);
 }

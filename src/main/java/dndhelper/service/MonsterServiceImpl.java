@@ -22,8 +22,8 @@ public class MonsterServiceImpl implements MonsterService {
     }
 
     @Transactional
-    public Monster getMonsterByName(String name) {
-        return this.monsterDAO.getMonsterByName(name);
+    public Monster getMonsterById(int id) {
+        return this.monsterDAO.getMonsterById(id);
     }
 
     @Transactional
@@ -32,8 +32,8 @@ public class MonsterServiceImpl implements MonsterService {
     }
 
     @Transactional
-    public void deleteMonster(String name) {
-        this.monsterDAO.deleteMonster(name);
+    public void deleteMonster(int id) {
+        this.monsterDAO.deleteMonster(id);
     }
 
 }

@@ -7,7 +7,7 @@
 <title>Options</title>
 </head>
 <body>
-	<input type="button" value="Backup Database" onclick="window.location.href='backup'; return false;"/>
-	<input type="button" value="Restore Database" onclick="window.location.href='restore'; return false;"/>
+	<input type="button" value="Backup Database" onclick="window.location.href='options/backup'; return false;"/>
+	<input type="button" value="Restore Database" onclick="window.location.href='options/restore'; return false;"/>
 </body>
 </html>

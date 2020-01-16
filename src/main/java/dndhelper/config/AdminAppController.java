@@ -93,12 +93,14 @@ public class AdminAppController {
 	
 	@RequestMapping("/options/backup")
 	public String backupDatabase(Model theModel) {
-		return "admin/options";
+		DatabaseManager.Backupdbtosql();
+		return "redirect:/admin/options";
 	}
 	
 	@RequestMapping("/options/restore")
 	public String restoreDatabase(Model theModel) {
-		return "admin/options";
+		DatabaseManager.Restoredbfromsql();
+		return "redirect:/admin/options";
 	}
 
 	@RequestMapping("/login")

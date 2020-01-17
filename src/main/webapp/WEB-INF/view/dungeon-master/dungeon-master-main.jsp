@@ -21,9 +21,16 @@
 			<c:url var="showCampaign" value="/dungeon-master/campaign">
 				<c:param name="campaignId" value="${campaign.id}"></c:param>
 			</c:url>
+			<c:url var="deleteCampaignLink" value="/dungeon-master/campaign/delete_campaign">
+					<c:param name="campaignId" value="${campaign.id}"></c:param>
+			</c:url>
 			<tr>
 				<td> ${campaign.name} </td>
-				<td> <a href="${showCampaign}">Show Campaign</a></td>
+				<td> <a href="${showCampaign}">Show Campaign</a>
+				|
+				<a href="${deleteCampaignLink}">Delete Campaign</a>
+				
+				</td>
 			</tr>
 		</c:forEach>	
 		

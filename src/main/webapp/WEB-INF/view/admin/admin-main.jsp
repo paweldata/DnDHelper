@@ -31,9 +31,6 @@
 					<c:url var="showCharactersListLink" value="/admin/player/character_list">
 						<c:param name="playerNick" value="${tempPlayer.nick}"></c:param>
 					</c:url>
-					<c:url var="showCampaignsListLink" value="/admin/player/campaign_list">
-						<c:param name="playerNick" value="${tempPlayer.nick}"></c:param>
-					</c:url>
 					<c:url var="deletePlayerLink" value="/admin/player/delete_player">
 						<c:param name="playerNick" value="${tempPlayer.nick}"></c:param>
 					</c:url>
@@ -43,9 +40,7 @@
 						<td> 
 							<a href="${showCharactersListLink}">Show Character</a>
 							|
-							<a href="${showCampaignsListLink}">Campaigns</a>
-							|
-							<a href="${deletePlayerLink}" onclick="if(!(confirm('Are you sure you want to delete this character?'))) return false">Delete Player</a>
+							<a href="${deletePlayerLink}" onclick="if(!(confirm('Are you sure you want to delete this player?'))) return false">Delete Player</a>
 						</td>
 					</tr>
 				
@@ -67,7 +62,7 @@
 					<c:url var="showCampaignsListLink" value="/admin/dm/campaign_list">
 						<c:param name="dmNick" value="${tempDM.nick}"></c:param>
 					</c:url>
-					<c:url var="deleteDMLink" value="/admin/dm/delete_player">
+					<c:url var="deleteDMLink" value="/admin/dm/delete_dm">
 						<c:param name="dmNick" value="${tempDM.nick}"></c:param>
 					</c:url>
 					<tr>

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import dndhelper.dao.interfaces.PlayerDAO;
+import dndhelper.entity.Location;
+import dndhelper.entity.Monster;
 import dndhelper.entity.Player;
 
 @Repository
@@ -40,9 +42,20 @@ public class PlayerDAOImpl implements PlayerDAO {
 
     public void deletePlayer(String nick) {
         Session session = this.sessionFactory.getCurrentSession();
-        
-        Query deleteQuery = session.createQuery("DELETE FROM player WHERE player.nick LIKE :playerNick");
-        deleteQuery.setParameter("playerNick", nick);
-        deleteQuery.executeUpdate();
+    	Player player = session.get(Player.class, nick);
+    	List<dndhelper.entity.Character> characters = player.getCharacters();
+    	if(!characters.isEmpty()) {
+    		for(dndhelper.entity.Character tempCharacter : characters) {
+    			//player.getCharacters().remove(tempCharacter);
+    			tempCharacter.setCampaigns(null);
+    			tempCharacter.setPlayer(null);
+    			session.remove(tempCharacter);
+    		}
+    	}
+    	player.setCharacters(null);
+    	session.remove(player);
+        //Query deleteQuery = session.createQuery("DELETE FROM player WHERE player.nick LIKE :playerNick");
+        //deleteQuery.setParameter("playerNick", nick);
+        //deleteQuery.executeUpdate();
     }
 }

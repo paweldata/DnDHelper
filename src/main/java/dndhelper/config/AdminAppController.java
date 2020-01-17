@@ -49,6 +49,18 @@ public class AdminAppController {
 		return "admin/admin-main";
 	}
 	
+	@RequestMapping("/player/delete_player")
+	public String deletePlayer(@ModelAttribute("playerNick") String playerNick, Model theModel) {
+		playerService.deletePlayer(playerNick);
+		return "redirect:/admin/menu";
+	}
+	
+	@RequestMapping("/dm/delete_dm")
+	public String deleteDm(@ModelAttribute("dmNick") String dmNick, Model theModel) {
+		dungeonMasterService.deleteDungeonMaster(dmNick);
+		return "redirect:/admin/menu";
+	}
+	
 	@RequestMapping("/monster_manual")
 	public String showMonsterManualPage(Model theModel) {
 		theModel.addAttribute(monsterService.getMonsters());

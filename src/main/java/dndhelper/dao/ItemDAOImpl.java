@@ -2,6 +2,7 @@ package dndhelper.dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,23 +17,34 @@ public class ItemDAOImpl implements ItemDAO {
     private SessionFactory sessionFactory;
 
     public List<Item> getItems() {
-        // TODO Auto-generated method stub
-        return null;
+      Session session = this.sessionFactory.getCurrentSession();
+      List<Item> itemList = session.createQuery("FROM Item", Item.class).list();
+      
+      return itemList;
     }
 
     public Item getItemByName(String name) {
-        // TODO Auto-generated method stub
-        return null;
+      Session session = this.sessionFactory.getCurrentSession();
+      Item item = session.get(Item.class, name);
+      
+      return item;
     }
 
     public void saveItem(Item item) {
-        // TODO Auto-generated method stub
-
+      Session session = sessionFactory.getCurrentSession();
+      session.saveOrUpdate(item);
     }
 
     public void deleteItem(String name) {
-        // TODO Auto-generated method stub
+      Session session = sessionFactory.getCurrentSession();
+      Item item = session.get(Item.class, name);
+      List<dndhelper.entity.Character> characters = item.getCharacters();
+      if(!characters.isEmpty()) {
+        for(dndhelper.entity.Character character : characters) {
+          character.getItems().remove(item);
+        }
+      }
+      session.delete(item);
 
     }
-
 }

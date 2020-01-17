@@ -6,6 +6,7 @@
 <html>
 <body>
 	<h2>DungeonMaster</h2>
+	<input type="button" value="Monster Manual" onclick="window.location.href='monster_manual'; return false;"/>
 	<h2>Your Campaigns List!</h2>
 	
   	<a href="${pageContext.request.contextPath}/dungeon-master/campaign/create">Create New Campaign</a> 

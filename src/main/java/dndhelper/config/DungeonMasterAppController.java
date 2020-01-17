@@ -79,11 +79,30 @@ public class DungeonMasterAppController {
 	  return "dungeon-master/dungeon-master-main";
 	}
 	
+	@RequestMapping("/monster_manual")
+	public String showMonsterManualPage(Model theModel) {
+		theModel.addAttribute(monsterService.getMonsters());
+		return "dungeon-master/monster-manual";
+	}
+	
+	@RequestMapping("/monster_manual/show")
+	public String showShowMonsterPage(@ModelAttribute("monsterId") int monsterId, Model theModel) {
+		Monster monster = monsterService.getMonsterById(monsterId);
+			if(monster != null) {
+				String image = monster.getImage();
+				if(!image.isEmpty()) {
+					theModel.addAttribute("statImage", monster.getImage());
+				}
+				theModel.addAttribute(monster);
+				return "dungeon-master/show-monster";
+			}
+		return "redirect:/dungeon-master/monster_manual";
+	}
+	
 	@RequestMapping("/campaign/create")
   public String showDungeonMasterCampaignCreatePage(Model theModel) {
-    theModel.addAttribute("dungeonMaster", this.dungeonMasterService.getDungeonMasterByNick(this.nick));
-    theModel.addAttribute("campaign", new Campaign());
-    return "dungeon-master/dungeon-master-campaign-create";
+	theModel.addAttribute(monsterService.getMonsters());
+    return "dungeon-master/monster-manual";
   }
 	
 	@PostMapping("/campaign/campaign-create")

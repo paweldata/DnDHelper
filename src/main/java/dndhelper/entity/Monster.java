@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -38,7 +40,10 @@ public class Monster {
     @Column(name = "wisdom") private int wisdom;
     @Column(name = "charisma") private int charisma;
     
-    @Column(name = "image") private byte[] image;
+    //@Lob
+    //@Basic(fetch = FetchType.LAZY)
+    @Column(name = "image") 
+    private byte[] image;
     
     @ManyToMany(mappedBy="monsters")
     private List<Location> locations;

@@ -90,9 +90,47 @@
 					<tr>
 						<td><input type="submit" value="Save"/></td>
 					</tr>
+					
+					
+					
 				</tbody>
 			</table>
 	</form:form>
+	
+	<c:url var="add_item" value="add_item_to_character">
+			<c:param name="characterId" value="${character.id}"></c:param>
+	</c:url>
+
+	<form:form action="${add_item}" modelAttribute="item" method="POST" >
+			<tr>
+				<th>
+					<form:select path="name">
+						<form:option value="-1" label="--Please Select"/>
+						<form:options items="${items}"  itemValue="name" itemLabel="name" type="number"/>
+					</form:select>
+				</th>
+				<th><input type="submit" value="save"/></th>
+			</tr>
+	</form:form>
+	
+	<c:forEach var="item" items="${characterItems}">
+		<c:url var="deleteItem" value="delete_item">
+			<c:param name="itemName" value="${item.name}"></c:param>
+			<c:param name="characterId" value="${character.id}"></c:param>
+		</c:url>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+			</tr>
+			<tr>
+				<td> ${item.name} </td>
+				<td> ${item.description} </td>
+				<td><button type="button" class="delete" onclick="window.location.href='${deleteItem}'; return false;">Delete Item</button></td>
+			</tr>
+		</table>
+	</c:forEach>
+	
 	<p>
 		<a href="${pageContext.request.contextPath}/player/menu">Back to Player options</a>
 	</p>	

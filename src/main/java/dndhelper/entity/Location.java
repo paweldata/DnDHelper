@@ -37,7 +37,7 @@ public class Location {
     @JoinTable(
             name="monster_location",
             joinColumns=@JoinColumn(name="id_location"),
-            inverseJoinColumns=@JoinColumn(name="name_monster")
+            inverseJoinColumns=@JoinColumn(name="id_monster")
             )
     private List<Monster> monsters;
     

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dndhelper.dao.interfaces.MonsterDAO;
+import dndhelper.entity.Campaign;
+import dndhelper.entity.Location;
 import dndhelper.entity.Monster;
 import dndhelper.service.interfaces.MonsterService;
 
@@ -35,5 +37,14 @@ public class MonsterServiceImpl implements MonsterService {
     public void deleteMonster(int id) {
         this.monsterDAO.deleteMonster(id);
     }
+
+	@Override
+    @Transactional
+	public List<Location> getLocationsByMonsters(int monsterId) {
+		Monster monster = monsterDAO.getMonsterById(monsterId);
+		List<Location> locations = monster.getLocations();
+	      for (Location location : locations);
+	      return locations;
+	}
 
 }

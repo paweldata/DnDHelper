@@ -78,17 +78,9 @@ public class AdminAppController {
 	public String showShowMonsterPage(@ModelAttribute("monsterId") int monsterId, Model theModel) {
 		Monster monster = monsterService.getMonsterById(monsterId);
 			if(monster != null) {
-				if(monster.getImage() != null) {
-					byte[] encodeBase64 = Base64.encodeBase64(monster.getImage());
-					String base64Encoded;
-					try {
-						base64Encoded = new String(encodeBase64, "UTF-8");
-						theModel.addAttribute("statImage", base64Encoded);
-					} catch (UnsupportedEncodingException e) {
-						System.out.println("Monster linia ok 75");
-						e.printStackTrace();
-					}
-					
+				String image = monster.getImage();
+				if(!image.isEmpty()) {
+					theModel.addAttribute("statImage", monster.getImage());
 				}
 				theModel.addAttribute(monster);
 				return "admin/show-monster-form";

@@ -1,6 +1,7 @@
 package dndhelper.entity;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
@@ -38,14 +40,7 @@ public class Monster {
     
     @Column(name = "image") private byte[] image;
     
-    @ManyToMany(fetch=FetchType.LAZY,
-            cascade= {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH,
-                    CascadeType.MERGE,})
-    @JoinTable(
-            name="monster_location",
-            joinColumns=@JoinColumn(name="id_monster"),
-            inverseJoinColumns=@JoinColumn(name="id_location")
-            )
+    @ManyToMany(mappedBy="monsters")
     private List<Location> locations;
     
     public Monster() {}
@@ -72,8 +67,6 @@ public class Monster {
 		this.locations = locations;
 	}
 
-
-
 	public int getId() {
 		return id;
 	}
@@ -98,8 +91,19 @@ public class Monster {
         this.hitPoints = hitPoints;
     }
     
-    public byte[] getImage() {
-        return image;
+    public String getImage() {
+    	if(image != null) {
+    		byte[] encodeBase64 = Base64.encodeBase64(image);
+    		String base64Encoded;
+    		try {
+    			base64Encoded = new String(encodeBase64, "UTF-8");
+    			return base64Encoded;
+    		} catch (UnsupportedEncodingException e) {
+    			System.out.println("Monster linia ok 75");
+    			e.printStackTrace();
+    		}
+    	}
+		return "";
     }
     
     public void setImage(MultipartFile image) {

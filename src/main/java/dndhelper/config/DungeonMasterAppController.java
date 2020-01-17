@@ -74,6 +74,7 @@ public class DungeonMasterAppController {
 	
 	@PostMapping("/create_account")
 	public String createAccount(@ModelAttribute("dungeon_master") DungeonMaster dungeonMaster) {
+	  dungeonMaster.setPassword(Integer.toString(dungeonMaster.getPassword().hashCode()));
 		this.dungeonMasterService.saveDungeonMaster(dungeonMaster);
 		return "dungeon-master/dungeon-master-login";
 	}

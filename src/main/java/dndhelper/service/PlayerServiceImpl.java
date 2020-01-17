@@ -39,6 +39,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     public boolean loginValidate(Player player) {
       Player testPlayer = playerDAO.getPlayerByNick(player.getNick());
+      player.setPassword(Integer.toString(player.getPassword().hashCode()));
       if(testPlayer != null) {
         return (testPlayer.getNick().equals(player.getNick()) && testPlayer.getPassword().equals(player.getPassword()));
       }

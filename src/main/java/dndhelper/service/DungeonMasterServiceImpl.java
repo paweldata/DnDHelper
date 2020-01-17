@@ -40,6 +40,7 @@ public class DungeonMasterServiceImpl implements DungeonMasterService {
 	@Transactional
 	public boolean loginValidate(DungeonMaster dungeonMaster) {
 		DungeonMaster testDungeonMaster = this.getDungeonMasterByNick(dungeonMaster.getNick());
+		dungeonMaster.setPassword(Integer.toString(dungeonMaster.getPassword().hashCode()));
 		if (testDungeonMaster != null)
 			return (testDungeonMaster.getNick().equals(dungeonMaster.getNick()) &&
 					testDungeonMaster.getPassword().contentEquals(dungeonMaster.getPassword()));

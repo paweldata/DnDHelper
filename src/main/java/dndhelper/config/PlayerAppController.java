@@ -93,6 +93,7 @@ public class PlayerAppController {
 
 	@PostMapping("/create_player")
 	public String createAccount(@ModelAttribute("player") Player player) {
+	  player.setPassword(Integer.toString(player.getPassword().hashCode()));
 		this.playerService.savePlayer(player);
 		return "player/player-login";
 	}

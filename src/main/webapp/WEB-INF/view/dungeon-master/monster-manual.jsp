@@ -51,7 +51,7 @@
 				</c:forEach>
 						
 			</table>
-			<a href="${pageContext.request.contextPath}/dungeon-master/menu">Main View</a>
+			<a href="${pageContext.request.contextPath}/dungeon-master/main">Main View</a>
 </div>
 </body>
 </html>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import dndhelper.entity.Campaign;
 import dndhelper.entity.Character;
 import dndhelper.entity.DungeonMaster;
+import dndhelper.entity.Item;
 import dndhelper.entity.Location;
 import dndhelper.entity.Npc;
 import dndhelper.entity.Player;
@@ -23,6 +24,7 @@ import dndhelper.entity.enums.ClassEnum;
 import dndhelper.entity.enums.RaceEnum;
 import dndhelper.service.interfaces.CampaignService;
 import dndhelper.service.interfaces.CharacterService;
+import dndhelper.service.interfaces.ItemService;
 import dndhelper.service.interfaces.LocationService;
 import dndhelper.service.interfaces.NpcService;
 import dndhelper.service.interfaces.PlayerService;
@@ -48,6 +50,9 @@ public class PlayerAppController {
 	
 	@Autowired
   private NpcService npcService;
+	
+	@Autowired
+	private ItemService itemService;
 	
 	@RequestMapping("/menu")
 	public String showPlayerMainPage(Model theModel) {
@@ -94,12 +99,16 @@ public class PlayerAppController {
 	public String showCharacterCreatePage(Model theModel) {
 		Character character = new Character();
 		theModel.addAttribute(character);
+		theModel.addAttribute("items", new ArrayList<Item>());
 		theModel.addAttribute("allignments",AllignmentEnum.values());
 		theModel.addAttribute("races",RaceEnum.values());
 		theModel.addAttribute("classes",ClassEnum.values());
+		theModel.addAttribute("items", this.itemService.getItems());
+		theModel.addAttribute("item", new Item());
 		return "player/show-character-form";
 	}
 	
+	@Transactional
 	@RequestMapping("/character/show_character")
 	public String showCharacterCreatePage(@ModelAttribute("characterId") int characterId, Model theModel) {
 		List <Character> characters = playerService.getPlayerByNick(nick).getCharacters();
@@ -107,10 +116,14 @@ public class PlayerAppController {
 		for(Character tempCh : characters) {
 			if(characterId == tempCh.getId()) {
 				character = tempCh;
+				List<Item> items = this.characterService.getItems(character);
 				theModel.addAttribute("allignments",AllignmentEnum.values());
 				theModel.addAttribute("races",RaceEnum.values());
 				theModel.addAttribute("classes",ClassEnum.values());
 				theModel.addAttribute(character);
+				theModel.addAttribute("items", this.itemService.getItems());
+				theModel.addAttribute("characterItems", items);
+				theModel.addAttribute("item", new Item());
 				return "player/show-character-form";
 			}
 		}
@@ -139,6 +152,36 @@ public class PlayerAppController {
     theModel.addAttribute(campaigns);
     theModel.addAttribute(character);
     return "player/show-campaign-form";
+	}
+	
+	@Transactional
+	@RequestMapping("/character/add_item_to_character")
+	public String addItemToCharacter(@ModelAttribute("item") Item item,
+	    @ModelAttribute("characterId") int characterId) {
+	  Character character = this.characterService.getCharacterById(characterId);
+	  
+	  item.addCharacter(character);
+	  this.itemService.saveItem(item);
+	  character.addItem(item);
+	  this.characterService.saveCharacter(character);
+	  
+	  return "redirect:/player/character/show_character?characterId" + characterId;
+	}
+	
+	@Transactional
+	@RequestMapping("/character/delete_item")
+	public String deleteItem(@ModelAttribute("itemName") String itemName,
+      @ModelAttribute("characterId") int characterId) {
+	  
+	  Character character = this.characterService.getCharacterById(characterId);
+	  Item item = this.itemService.getItemByName(itemName);
+	  
+	  List<Item> items = this.characterService.getItems(character);
+	  items.remove(item);
+	  character.setItems(items);
+	  this.characterService.saveCharacter(character);
+	  
+	  return "redirect:/player/character/show_character?characterId" + characterId;
 	}
 	
 	@Transactional

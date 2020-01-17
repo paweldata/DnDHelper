@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import dndhelper.dao.interfaces.CharacterDAO;
 import dndhelper.entity.Campaign;
 import dndhelper.entity.Character;
+import dndhelper.entity.Item;
 import dndhelper.service.interfaces.CharacterService;
 
 @Service
@@ -40,9 +41,15 @@ public class CharacterServiceImpl implements CharacterService {
     @Transactional
     public List<Campaign> getCampaigns(Character character) {
       List<Campaign> campaigns = character.getCampaigns();
-      for (Campaign campaign : campaigns)
-        System.out.println(campaign.getId());
+      for (Campaign campaign : campaigns);
       return campaigns;
+    }
+
+    @Transactional
+    public List<Item> getItems(Character character) {
+      List<Item> items = character.getItems();
+      for (Item item : items);
+      return items;
     }
 
 }

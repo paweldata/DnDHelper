@@ -38,13 +38,17 @@ public class MonsterServiceImpl implements MonsterService {
         this.monsterDAO.deleteMonster(id);
     }
 
-	@Override
-    @Transactional
+  @Transactional
 	public List<Location> getLocationsByMonsters(int monsterId) {
 		Monster monster = monsterDAO.getMonsterById(monsterId);
 		List<Location> locations = monster.getLocations();
 	      for (Location location : locations);
 	      return locations;
 	}
+
+  @Transactional
+  public List<Monster> getMosterByChallenge(float challenge) {
+    return this.monsterDAO.getMosterByChallenge(challenge);
+  }
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -50,5 +51,15 @@ public class MonsterDAOImpl implements MonsterDAO {
     	Monster monster = session.get(Monster.class, id);
         return monster;
 	}
+
+  @Override
+  public List<Monster> getMosterByChallenge(float challenge) {
+    Session session = this.sessionFactory.getCurrentSession();
+    
+    Query query = session.createQuery("FROM Monster WHERE challenge LIKE :challenge");
+    query.setParameter("challenge", challenge);
+    List<Monster> monsters = query.list();
+    return monsters;
+  }
 
 }

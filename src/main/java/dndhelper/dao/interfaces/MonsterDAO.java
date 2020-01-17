@@ -10,4 +10,5 @@ public interface MonsterDAO {
     public void saveMonster(Monster monster);
     public void deleteMonster(int id);
 	public Monster getMonsterById(int id);
+	public List<Monster> getMosterByChallenge(float challenge);
 }

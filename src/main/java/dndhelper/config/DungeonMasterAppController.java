@@ -104,6 +104,12 @@ public class DungeonMasterAppController {
 		return "redirect:/dungeon-master/monster_manual";
 	}
 	
+	@RequestMapping("/findMonster")
+	public String findMonsterByChallenge(@ModelAttribute("challenge") float challenge, Model theModel) {
+	  theModel.addAttribute(monsterService.getMosterByChallenge(challenge));
+	  return "dungeon-master/monster-manual";
+	}
+	
 	@RequestMapping("/campaign/create")
   public String showDungeonMasterCampaignCreatePage(Model theModel) {
 	theModel.addAttribute(monsterService.getMonsters());

@@ -12,4 +12,5 @@ public interface MonsterService {
     public void saveMonster(Monster monster);
     public void deleteMonster(int id);
 	public List<Location> getLocationsByMonsters(int monsterId);
+	public List<Monster> getMosterByChallenge(float challenge);
 }

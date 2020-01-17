@@ -6,6 +6,21 @@
 <html>
 <body>
 <h2>Monster Manual</h2>
+
+<form action="findMonster" method="get">			
+	<table>
+		<tbody>
+			<tr>
+				<td><label>Challenge:</label></td>
+				<td><input type="text" name="challenge"/></td>
+			</tr>		
+			<tr>
+				<td><input type="submit" value="find"/></td>
+			</tr>
+		</tbody>
+	</table>			
+</form>
+
 <div>
 	<table>
 				<tr>

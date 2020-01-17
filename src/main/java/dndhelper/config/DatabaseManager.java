@@ -41,7 +41,7 @@ public class DatabaseManager {
 	         System.out.println(savePath);
 	        /*NOTE: Used to create a cmd command*/
 	        String executeCmd = "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump --user=" 
-	        		+ dbUser + " -p" + dbPass + " --host=127.0.0.1 " + dbName + " -r " + savePath;
+	        		+ dbUser + " -p" + dbPass + " --host=127.0.0.1 --routines " + dbName + " -r " + savePath;
 	        //executeCmd = "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump"
 	        		//+ " --user=admin -padmin --host=127.0.0.1 dndhelper -r c:\\backup\\backup.sql";
 	        /*NOTE: Executing the command here*/

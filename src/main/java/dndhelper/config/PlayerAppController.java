@@ -67,6 +67,12 @@ public class PlayerAppController {
 		theModel.addAttribute("player", player);
 		return "player/player-login";
 	}
+	
+	@RequestMapping("/logout")
+	public String logout() {
+	  this.nick = null;
+	  return "redirect:/";
+	}
 
 	@PostMapping("/login_validate")
 	public String loginValidate(@ModelAttribute("player") Player player) {

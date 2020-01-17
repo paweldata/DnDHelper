@@ -28,5 +28,7 @@
 		
 	</table>
 	
+	<input type="button" value="Logout" onclick="window.location.href='logout'; return false;"/>
+	
 </body>
 </html>

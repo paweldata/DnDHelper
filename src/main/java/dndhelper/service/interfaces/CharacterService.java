@@ -4,6 +4,7 @@ import java.util.List;
 
 import dndhelper.entity.Campaign;
 import dndhelper.entity.Character;
+import dndhelper.entity.Item;
 
 public interface CharacterService {
 
@@ -12,4 +13,5 @@ public interface CharacterService {
     public void saveCharacter(Character character);
     public void deleteCharacter(int id);
     public List<Campaign> getCampaigns(Character character);
+    public List<Item> getItems(Character character);
 }

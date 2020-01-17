@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import dndhelper.entity.Character;
+import dndhelper.entity.Item;
 import dndhelper.entity.Monster;
 import dndhelper.entity.Player;
 import dndhelper.entity.enums.AllignmentEnum;
@@ -21,6 +22,7 @@ import dndhelper.entity.enums.RaceEnum;
 import dndhelper.service.interfaces.CampaignService;
 import dndhelper.service.interfaces.CharacterService;
 import dndhelper.service.interfaces.DungeonMasterService;
+import dndhelper.service.interfaces.ItemService;
 import dndhelper.service.interfaces.MonsterService;
 import dndhelper.service.interfaces.PlayerService;
 
@@ -33,6 +35,8 @@ public class AdminAppController {
 	private PlayerService playerService;
 	@Autowired
 	private CharacterService characterService;
+	@Autowired
+  private ItemService itemService;
 	
 	@Autowired
 	private DungeonMasterService dungeonMasterService;
@@ -102,7 +106,32 @@ public class AdminAppController {
 	
 	@RequestMapping("/item_list")
 	public String showItemListPage(Model theModel) {
-		return "admin/admin-main";
+	  theModel.addAttribute("items", this.itemService.getItems());
+		return "admin/item-list";
+	}
+	
+	@RequestMapping("/item/create_item")
+	public String showItemCreatePage(Model theModel) {
+	  theModel.addAttribute("item", new Item());
+	  return "admin/show-item-form";
+	}
+	
+	@RequestMapping("/item/show_item")
+	public String showItemCreatePage(@ModelAttribute("itemName") String itemName, Model theModel) {
+	  theModel.addAttribute("item", this.itemService.getItemByName(itemName));
+	  return "admin/show-item-form";
+	}
+	
+	@PostMapping("/item/save_item")
+	public String saveItem(@ModelAttribute("item") Item item) {
+	  this.itemService.saveItem(item);
+	  return "redirect:/admin/item_list";
+	}
+	
+	@RequestMapping("/item/delete_item")
+	public String deleteItem(@ModelAttribute("itemName") String itemName) {
+	  this.itemService.deleteItem(itemName);
+	  return "redirect:/admin/item_list";
 	}
 	
 	@RequestMapping("/options")

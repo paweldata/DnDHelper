@@ -12,6 +12,7 @@ import dndhelper.dao.interfaces.CampaignDAO;
 import dndhelper.entity.Campaign;
 import dndhelper.entity.Character;
 import dndhelper.entity.Location;
+import dndhelper.entity.Note;
 import dndhelper.entity.Npc;
 
 @Repository
@@ -41,10 +42,35 @@ public class CampaignDAOImpl implements CampaignDAO {
 
     public void deleteCampaign(int id) {
       Session session = this.sessionFactory.getCurrentSession();
-      
-      Query deleteQuery = session.createQuery("DELETE FROM campaign WHERE campaign.id LIKE :campaignId");
+      Campaign campaign = session.get(Campaign.class, id);
+      List<dndhelper.entity.Character> characters = campaign.getCharacters();
+  	if(!characters.isEmpty()) {
+  		for(dndhelper.entity.Character tempCharacter : characters) {
+  			tempCharacter.getCampaigns().remove(campaign);
+  		}
+  	}
+		List<Location> locations = campaign.getLocations();
+		List<Npc> npcs = campaign.getNpcs();
+		List<Note> notes = campaign.getNotes();
+		for(Location tempLocation : locations) {
+			tempLocation.setCampaign(null);
+			tempLocation.setMonsters(null);;
+			session.remove(campaign);
+		}
+		for(Npc tempNpc : npcs) {
+			tempNpc.setCampaign(null);
+			session.remove(tempNpc);
+		}
+		for(Note tempNote : notes) {
+			tempNote.setCampaign(null);
+			session.remove(tempNote);
+		}
+		campaign.getDungeonMaster().getCampaigns().remove(campaign);
+  		campaign.setDungeonMaster(null);
+		session.remove(campaign);
+      /*Query deleteQuery = session.createQuery("DELETE FROM campaign WHERE campaign.id LIKE :campaignId");
       deleteQuery.setParameter("campaignId", id);
-      deleteQuery.executeUpdate();
+      deleteQuery.executeUpdate();*/
     }
 
     public List<Location> getLocations(Campaign campaign) {

@@ -112,10 +112,17 @@ public class DungeonMasterAppController {
 	}
 	
 	@RequestMapping("/campaign/create")
-  public String showDungeonMasterCampaignCreatePage(Model theModel) {
-	theModel.addAttribute(monsterService.getMonsters());
-    return "dungeon-master/monster-manual";
-  }
+	  public String showDungeonMasterCampaignCreatePage(Model theModel) {
+	    theModel.addAttribute("dungeonMaster", this.dungeonMasterService.getDungeonMasterByNick(this.nick));
+	    theModel.addAttribute("campaign", new Campaign());
+	    return "dungeon-master/dungeon-master-campaign-create";
+	  }
+	
+	@RequestMapping("/campaign/delete_campaign")
+	public String deleteDm(@ModelAttribute("campaignId") int campaignId, Model theModel) {
+		campaignService.deleteCampaign(campaignId);
+		return "redirect:/dungeon-master/main";
+	}
 	
 	@PostMapping("/campaign/campaign-create")
   public String createCampaign(@ModelAttribute("campaign") Campaign campaign) {

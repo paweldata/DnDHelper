@@ -33,7 +33,7 @@
 					</tr>	
 					<tr>
 						<td><label>Challenge:</label></td>
-						<td><form:input type="number" path="challenge" required="required"/></td>
+						<td><form:input type="number" step="0.01" path="challenge" required="required"/></td>
 					</tr>
 					<tr>
 						<td><label>Strength:</label></td>

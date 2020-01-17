@@ -44,7 +44,6 @@ public class DungeonMasterAppController {
 	
 	ArrayList <Monster> savedMonsters = new ArrayList<Monster>();
 	private String nick;
-	private int campaignId;
 
 	@RequestMapping("/login")
 	public String showDungeonMasterLoginPage(Model theModel) {
@@ -60,6 +59,12 @@ public class DungeonMasterAppController {
 		}
 		return "redirect:/dungeon-master/login";
 	}
+	
+	@RequestMapping("/logout")
+  public String logout() {
+    this.nick = null;
+    return "redirect:/";
+  }
 	
 	@RequestMapping("/create")
 	public String showDungeonMasterCreatePage(Model theModel) {

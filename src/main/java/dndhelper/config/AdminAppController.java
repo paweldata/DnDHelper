@@ -37,12 +37,10 @@ public class AdminAppController {
 	private CharacterService characterService;
 	@Autowired
   private ItemService itemService;
-	
 	@Autowired
 	private DungeonMasterService dungeonMasterService;
 	@Autowired
 	private CampaignService campaignService;
-	
 	@Autowired
 	private MonsterService monsterService;
 	
@@ -52,6 +50,11 @@ public class AdminAppController {
 		theModel.addAttribute(dungeonMasterService.getDungeonMasters());
 		return "admin/admin-main";
 	}
+	
+	@RequestMapping("/logout")
+  public String logout() {
+    return "redirect:/";
+  }
 	
 	@RequestMapping("/player/delete_player")
 	public String deletePlayer(@ModelAttribute("playerNick") String playerNick, Model theModel) {

@@ -85,7 +85,7 @@
 										
 					<tr>
 						<td><label>Background:</label></td>
-						<td><form:input path="background" required="required"/></td>
+						<td><form:textarea rows="5" cols="25" path="background" required="required"/></td>
 					</tr>		
 					<tr>
 						<td><input type="submit" value="Save"/></td>

@@ -18,11 +18,11 @@
 				</tr>
 				<tr>
 					<td><label>Description:</label></td>
-					<td><form:input path="description"/></td>
+					<td><form:textarea rows="5" cols="25" path="description"/></td>
 				</tr>
 				<tr>
 					<td><label>Secrets:</label></td>
-					<td><form:input path="secrets"/></td>
+					<td><form:textarea rows="5" cols="25" path="secrets"/></td>
 				</tr>		
 				<tr>
 					<td><input type="submit" value="create"/></td>

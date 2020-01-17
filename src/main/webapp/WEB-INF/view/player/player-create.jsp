@@ -19,7 +19,7 @@
 					</tr>
 					<tr>
 						<td><label>Mail:</label></td>
-						<td><form:input path="mail" required="required"/></td>
+						<td><form:input type="email" path="mail" required="required"/></td>
 					</tr>					
 					<tr>
 						<td><input type="submit" value="create"/></td>

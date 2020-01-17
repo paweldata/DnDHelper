@@ -16,4 +16,5 @@ public interface CampaignDAO {
     public List<Location> getLocations(Campaign campaign);
     public List<Npc> getNpcs(Campaign campaign);
     public List<dndhelper.entity.Character> getCharacters(Campaign campaign);
+    public void addExp(int id, int exp, int maxExp);
 }

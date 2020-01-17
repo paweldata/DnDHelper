@@ -402,7 +402,7 @@ public class DungeonMasterAppController {
 	public String addExp(
 	    @RequestParam("campaignId") int campaignId,
 	    @RequestParam("exp") int exp, @RequestParam("maxExp") int maxExp) {
-	  
-	  return "redirect:/dungeon-master/campaign?campaignId=";
+	  this.campaignService.addExp(campaignId, exp, maxExp);
+	  return "redirect:/dungeon-master/campaign?campaignId=" + campaignId;
 	}
 }

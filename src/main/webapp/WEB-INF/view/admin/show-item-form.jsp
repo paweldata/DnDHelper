@@ -15,7 +15,7 @@
 					</tr>
 					<tr>
 						<td><label>Description:</label></td>
-						<td><form:input  path="description" required="required"/></td>
+						<td><form:textarea path="description" rows="5" cols="25" required="required"/></td>
 					</tr>		
 					<tr>
 						<td><input type="submit" value="Save"/></td>

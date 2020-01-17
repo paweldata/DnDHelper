@@ -1,5 +1,6 @@
 package dndhelper.config;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,13 @@ import dndhelper.entity.Character;
 import dndhelper.entity.Campaign;
 import dndhelper.entity.DungeonMaster;
 import dndhelper.entity.Location;
+import dndhelper.entity.Monster;
 import dndhelper.entity.Npc;
 import dndhelper.service.interfaces.CampaignService;
 import dndhelper.service.interfaces.CharacterService;
 import dndhelper.service.interfaces.DungeonMasterService;
 import dndhelper.service.interfaces.LocationService;
+import dndhelper.service.interfaces.MonsterService;
 import dndhelper.service.interfaces.NpcService;
 
 @Controller
@@ -36,7 +39,10 @@ public class DungeonMasterAppController {
 	private LocationService locationService;
 	@Autowired
 	private NpcService npcService;
+	@Autowired
+	private MonsterService monsterService;
 	
+	ArrayList <Monster> savedMonsters = new ArrayList<Monster>();
 	private String nick;
 	private int campaignId;
 
@@ -181,6 +187,7 @@ public class DungeonMasterAppController {
 	@PostMapping("/campaign/locations")
   public String showCampainLocationPage(@ModelAttribute("campaign") Campaign campaignWithId, 
       Model theModel) {
+	savedMonsters = new ArrayList <Monster>();
 	  Campaign campaign = this.campaignService.getCampaignById(campaignWithId.getId());
     theModel.addAttribute("campaign", campaign);
     theModel.addAttribute("locations", this.campaignService.getLocations(campaign));
@@ -190,6 +197,7 @@ public class DungeonMasterAppController {
 	@RequestMapping("/campaign/locations")
   public String gobackToCampainLocationPage(
       @RequestParam("campaignId") int campaignId, Model theModel) {
+	savedMonsters = new ArrayList <Monster>();
     Campaign campaign = this.campaignService.getCampaignById(campaignId);
     theModel.addAttribute("campaign", campaign);
     theModel.addAttribute("locations", this.campaignService.getLocations(campaign));
@@ -202,28 +210,89 @@ public class DungeonMasterAppController {
 	  Location location = new Location();
 	  location.setCampaign(this.campaignService.getCampaignById(campaignId));
 	  
+	theModel.addAttribute("monsters", monsterService.getMonsters());  
+	theModel.addAttribute("monster", new Monster());
     theModel.addAttribute("location", location);
+    theModel.addAttribute("addedMonsters", savedMonsters);
     theModel.addAttribute(this.campaignService.getCampaignById(campaignId));
     return "dungeon-master/campaign-location-create";
   }
 	
 	@PostMapping("/campaign/location/location-create")
   public String createLocation(@ModelAttribute("location") Location location) { 
-	  this.locationService.saveLocation(location);
+		location.setMonsters((List<Monster>)savedMonsters);
+		savedMonsters = new ArrayList <Monster>();
+		this.locationService.saveLocation(location);
     return "redirect:/dungeon-master/campaign?campaignId=" + location.getCampaign().getId();
   }
+	@RequestMapping("/campaign/location/add_monster")
+	  public String addMonsterToLocation(
+	      @RequestParam("campaignId") int campaignId,
+	      @RequestParam("locationId") int locationId, Model theModel,
+	      @ModelAttribute("monster") Monster monster) {
+		savedMonsters.add(monsterService.getMonsterById(monster.getId()));
+	    return "redirect:/dungeon-master/campaign/location/create?campaignId=" + campaignId;
+	  }
 	
 	@RequestMapping("/campaign/location/edit")
   public String showCampaignLocationEditPage(
       @RequestParam("campaignId") int campaignId,
       @RequestParam("locationId") int locationId, Model theModel) {
+		List<Monster> monsters =  (this.locationService.getMonstersByLocation(locationId));
+		theModel.addAttribute("monsters", monsterService.getMonsters());  
+		theModel.addAttribute("monster", new Monster());
+	    theModel.addAttribute("addedMonsters", monsters);
+	    theModel.addAttribute(this.campaignService.getCampaignById(campaignId));
     theModel.addAttribute("location", this.locationService.getLocationById(locationId));
     return "dungeon-master/campaign-location-edit";
   }
+
+	
+	@RequestMapping("/campaign/location/delete_monster")
+	  public String deleteMonsterFromLocationEdit(
+	      @RequestParam("campaignId") int campaignId,
+	      @RequestParam("locationId") int locationId, Model theModel,
+	      @RequestParam("monsterId") int monsterId) {
+		Location location = this.locationService.getLocationById(locationId);
+		//Monster monster = monsterService.getMonsterById(monsterId);
+		Monster monster = null;
+		List<Monster> monsters =  (this.locationService.getMonstersByLocation(locationId));
+		//List<Location> locations = (this.monsterService.getLocationsByMonsters(monsterId));
+		for(Monster tempMonster : monsters) {
+			if(tempMonster.getId() == monsterId) {
+				monster = tempMonster;
+				break;
+			}
+		}
+		monsters.remove(monster);
+		//locations.remove(location);
+		
+		location.setMonsters(monsters);
+		//monster.setLocations(locations);
+		
+		this.locationService.saveLocation(location);
+		//this.monsterService.saveMonster(monster);
+	    return "redirect:/dungeon-master/campaign/location/edit?locationId="+locationId+"&"+"campaignId=" + campaignId;
+	  }
+	
+	@RequestMapping("/campaign/location/add_monster_edit")
+	  public String addMonsterToLocationEdit(
+	      @RequestParam("campaignId") int campaignId,
+	      @RequestParam("locationId") int locationId, Model theModel,
+	      @ModelAttribute("monster") Monster monster) {
+		Location location = this.locationService.getLocationById(locationId);
+		List<Monster> monsters =  (this.locationService.getMonstersByLocation(locationId));
+		monsters.add(monsterService.getMonsterById(monster.getId()));
+		location.setMonsters(monsters);
+		this.locationService.saveLocation(location);
+	    return "redirect:/dungeon-master/campaign/location/edit?locationId="+locationId+"&"+"campaignId=" + campaignId;
+	  }
 	
 	@PostMapping("/campaign/location/location-edit")
 	public String editLocation(@ModelAttribute("location") Location location) {
-	  this.locationService.saveLocation(location);
+		List<Monster> monsters =  (this.locationService.getMonstersByLocation(location.getId()));
+		location.setMonsters(monsters);
+		this.locationService.saveLocation(location);
 	  return "redirect:/dungeon-master/campaign?campaignId=" + location.getCampaign().getId();
 	}
 	
